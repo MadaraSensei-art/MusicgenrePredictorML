@@ -1,0 +1,90 @@
+from sklearn.tree import DecisionTreeClassifier  # This is our ML model
+import numpy as np  # Helps us work with numbers and arrays
+
+print("Welcome to the Music Genre Predictor!")
+print("=" * 50)
+
+
+
+
+ages = [
+    [15], [16], [17], [18], [19], [20],  # Teenagers
+    [21], [22], [23], [24], [25], [26],  # Young adults
+    [27], [28], [29], [30], [35], [40],  # Adults
+    [45], [50], [55], [60], [65], [70]   # Older adults
+]
+
+
+genres = [
+    0, 0, 1, 1, 1, 1,  # Teens like Pop/Hip-Hop
+    1, 1, 2, 2, 2, 2,  # Young adults like Hip-Hop/Rock
+    2, 2, 2, 2, 2, 3,  # Adults like Rock/Classic Rock
+    3, 3, 3, 4, 4, 4   # Older adults like Classic Rock/Jazz
+]
+
+
+genre_names = {
+    0: "Pop",
+    1: "Hip-Hop",
+    2: "Rock",
+    3: "Classic Rock",
+    4: "Jazz"
+}
+
+
+print("\nTraining the model with sample data...")
+
+
+model = DecisionTreeClassifier()
+
+
+model.fit(ages, genres)
+
+print("Model trained successfully!")
+print("The model has learned patterns from", len(ages), "examples")
+
+
+print("\n" + "=" * 50)
+print("Let's predict some music preferences!")
+print("=" * 50)
+
+
+test_ages = [17, 25, 35, 55, 68]
+
+for age in test_ages:
+   
+    prediction = model.predict([[age]])
+    predicted_genre = genre_names[prediction[0]]
+    
+    print(f"\nAge {age} -> Predicted Genre: {predicted_genre}")
+
+
+print("\n" + "=" * 50)
+print("Now try your own age!")
+print("=" * 50)
+
+try:
+   
+    user_age = int(input("\nEnter an age (10-100): "))
+    
+   
+    if 10 <= user_age <= 100:
+        prediction = model.predict([[user_age]])
+        predicted_genre = genre_names[prediction[0]]
+        print(f"\nFor age {user_age}, the model predicts: {predicted_genre}")
+    else:
+        print("Please enter an age between 10 and 100")
+        
+except ValueError:
+    print("Please enter a valid number!")
+
+
+print("\n" + "=" * 50)
+print("Model Performance")
+print("=" * 50)
+
+
+accuracy = model.score(ages, genres)
+print(f"Training accuracy: {accuracy * 100:.1f}%")
+print("\nNote: This is a simple model for learning purposes.")
+print("Real-world models need much more data and validation!")
